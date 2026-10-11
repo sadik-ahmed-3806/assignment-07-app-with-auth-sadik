@@ -1,82 +1,86 @@
 # বাজার দর (BazarDor)
 
-বাংলাদেশের নিত্যপ্রয়োজনীয় পণ্যের আজকের দাম, বাজারভিত্তিক দর এবং দামের ওঠানামা এক জায়গায় দেখুন। বাংলা ভাষায় তৈরি এই অ্যাপ Programming Hero Bazar Dor API ব্যবহার করে পণ্য ও বিভাগের তথ্য দেখায়।
+বাংলাদেশের নিত্যপ্রয়োজনীয় পণ্যের আজকের দাম, বাজারভিত্তিক মূল্য এবং দামের ওঠানামা এক জায়গায় দেখার জন্য তৈরি একটি Next.js অ্যাপ।
+
+এই অ্যাপটি পণ্য, বিভাগ ও বাজার-ভিত্তিক মূল্য তথ্যকে সহজে খুঁজে বের করতে সাহায্য করে। বাংলা ভাষায় ডিজাইন করা হয়েছে, যাতে ব্যবহারকারীরা দ্রুত মূল্য তুলনা করতে পারে।
+
+## পোর্টফোলিও ও বৈশিষ্ট্য
+
+- বাজারভিত্তিক পণ্যের তালিকা দেখানো
+- পণ্যের বর্তমান দাম, ওঠানামা ও সংক্ষিপ্ত তুলনা
+- বিভাগ অনুযায়ী পণ্য অনুসন্ধান ও ফিল্টার
+- পণ্যের বিস্তারিত স্ট্যাটাস ও বাজারের সর্বনিম্ন/সর্বোচ্চ/গড় মূল্য
+- রেসপন্সিভ ডিজাইন: mobile, tablet ও desktop
+- সাশ্রয়ী UI, লোডিং স্টেট, 404 রিসোর্স ফেলা
+- ব্যবহারকারী অ্যাকাউন্ট ও ব্যক্তিগত প্রোফাইল সাপোর্ট
+- বাংলা toast নোটিফিকেশন ও সুন্দর UX
 
 ## প্রযুক্তি
 
 - Next.js App Router
 - React
 - JavaScript
-- Tailwind CSS 4 ও custom CSS
+- Tailwind CSS
 - Better Auth
 - MongoDB
 - Programming Hero Bazar Dor API
 - React Hot Toast
 
-## সুবিধাসমূহ
+## দ্রুত শুরু
 
-1. সর্বোচ্চ দাম-বৃদ্ধি ও দাম-হ্রাস অনুযায়ী সাজানো পণ্যের তালিকা।
-2. বাংলা সংখ্যা, দাম ও পরিবর্তনের ব্যাজসহ সব পণ্যের responsive grid।
-3. বিভাগভিত্তিক পণ্য দেখা এবং দামের ঊর্ধ্বক্রম/নিম্নক্রমে সাজানো।
-4. সুরক্ষিত পণ্যের বিস্তারিত পৃষ্ঠা এবং বাজারভিত্তিক সর্বনিম্ন, সর্বোচ্চ ও গড় দরের সারসংক্ষেপ।
-5. ইমেইল ও পাসওয়ার্ড দিয়ে নিবন্ধন এবং সাইন ইন।
-6. Google ও GitHub OAuth সাইন ইন—provider credentials যোগ করলে চালু হবে।
-7. সুরক্ষিত প্রোফাইল দেখা, নাম পরিবর্তন, সাইন আউট এবং বাংলা toast বার্তা।
-8. loading skeleton, অনুপস্থিত পণ্যের জন্য 404 পৃষ্ঠা, এবং mobile/tablet/desktop responsive layout।
-
-## স্থানীয়ভাবে চালানো
-
-1. Node.js ইনস্টল করে dependency স্থাপন করুন:
-
-   ```bash
-   npm install
-   ```
-
-2. `.env.example` অনুলিপি করে `.env` তৈরি করুন এবং MongoDB Atlas connection তথ্যসহ প্রয়োজনীয় মান বসান:
-
-   ```dotenv
-   BETTER_AUTH_URL=http://localhost:3000
-   BETTER_AUTH_SECRET=<কমপক্ষে-৩২-অক্ষরের-এলোমেলো-secret>
-   BETTER_AUTH_DB_URL=<MongoDB-connection-string>
-   BETTER_AUTH_DB_NAME=bazardor
-   GOOGLE_CLIENT_ID=
-   GOOGLE_CLIENT_SECRET=
-   GITHUB_CLIENT_ID=
-   GITHUB_CLIENT_SECRET=
-   ```
-
-   `.env` ফাইলটি Git-এ উপেক্ষিত। Secret বা database credential commit করবেন না।
-
-3. উন্নয়ন সার্ভার চালান:
-
-   ```bash
-   npm run dev
-   ```
-
-4. `http://localhost:3000` খুলুন।
-
-## Authentication callback URL
-
-OAuth provider setup করার সময় Better Auth-এর callback path ব্যবহার করুন:
-
-- Google local redirect URI: `http://localhost:3000/api/auth/callback/google`
-- GitHub local callback URL: `http://localhost:3000/api/auth/callback/github`
-- Google production redirect URI: `https://<আপনার-ডোমেইন>/api/auth/callback/google`
-- GitHub production callback URL: `https://<আপনার-ডোমেইন>/api/auth/callback/github`
-
-Google OAuth client-এ local ও production origin/redirect URI দুটিই যোগ করা যায়। GitHub OAuth App-এ একটি callback URL থাকে, তাই local ও production-এর জন্য আলাদা app তৈরি করুন। OAuth credentials সংশ্লিষ্ট environment-এর `.env` বা hosting provider-এর environment settings-এ রাখুন।
-
-## Netlify-তে deploy
-
-1. GitHub repository Netlify-তে import করুন। Netlify-এর Next.js runtime adapter দিয়ে Next.js App Router deploy করুন; static export ব্যবহার করবেন না, কারণ Better Auth এবং server-side API fetching server runtime চায়।
-2. Netlify site-এর environment variables-এ `BETTER_AUTH_URL` হিসেবে production origin দিন, যেমন `https://<আপনার-সাইট>.netlify.app`।
-3. `BETTER_AUTH_SECRET`, `BETTER_AUTH_DB_URL`, `BETTER_AUTH_DB_NAME`, এবং চালু করতে চাইলে Google/GitHub client ID ও secret যোগ করুন।
-4. Google ও GitHub OAuth app-এ production callback URL যোগ করুন, তারপর Netlify-তে deploy করুন বা নতুন deploy চালান।
-5. MongoDB Atlas-এ Netlify-এর server runtime থেকে database access অনুমোদিত আছে কিনা নিশ্চিত করুন।
-
-## যাচাইকরণ
+প্রজেক্টটি রান করার জন্য প্রয়োজনীয় package install করুন:
 
 ```bash
-npm run lint
-npm run build
+npm install
 ```
+
+তারপর ডেভেলপমেন্ট সার্ভার চালু করুন:
+
+```bash
+npm run dev
+```
+
+শেষে ব্রাউজারে এই URL খুলুন:
+
+```text
+http://localhost:3000
+```
+
+## প্রজেক্ট স্ক্রিপ্ট
+
+```bash
+npm run dev
+npm run build
+npm run lint
+```
+
+## ডিরেক্টরি ও ফাইল কাঠামো
+
+```text
+.
+├── src/
+│   ├── app/
+│   ├── components/
+│   ├── lib/
+│   ├── models/
+│   └── utils/
+├── public/
+├── package.json
+├── eslint.config.mjs
+├── next.config.mjs
+├── jsconfig.json
+├── README.md
+└── .gitignore
+```
+
+## অ্যাপের উদ্দেশ্য
+
+এই অ্যাপটি বাজারের পণ্য মূল্য দ্রুত ও সহজভাবে পর্যবেক্ষণ করার জন্য তৈরি। ব্যবহারকারীরা প্রতিদিনের দামের ওঠানামা, দরের পার্থক্য, ও পণ্যের বর্ণনা দেখতে পারে। এতে বাংলা ভাষার ব্যবহার নিশ্চিত করা হয়েছে, যাতে স্থানীয় বাজারের প্রেক্ষাপটে ব্যবহার সহজ হয়।
+
+## অবদান
+
+এই প্রজেক্টে অবদান রাখতে চাইলে, প্রথমে repository fork করুন, আপনার branch তৈরি করুন, পরিবর্তন দিন, তারপর pull request পাঠান।
+
+## লাইসেন্স
+
+এই প্রজেক্টের লাইসেন্স সংক্রান্ত তথ্য project configuration-এ উল্লেখ থাকতে পারে। ব্যবহার করার আগে প্রয়োজন অনুযায়ী লাইসেন্স যাচাই করুন।
