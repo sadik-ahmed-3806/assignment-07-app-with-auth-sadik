@@ -1,69 +1,135 @@
 import Image from "next/image";
+import marketBasket from "../../assets/bazar-hero.png";
+
+const categories = [
+  { icon: "🌾", name: "চাল", price: "৬৮ টাকা/কেজি" },
+  { icon: "🫘", name: "ডাল", price: "১২০ টাকা/কেজি" },
+  { icon: "🫒", name: "তেল", price: "১৮৫ টাকা/লিটার" },
+  { icon: "🥬", name: "সবজি", price: "বাজারদর দেখুন" },
+  { icon: "🐟", name: "মাছ", price: "২৮০ টাকা/কেজি" },
+  { icon: "🍗", name: "মাংস", price: "৭৫০ টাকা/কেজি" },
+  { icon: "🥚", name: "ডিম", price: "৫৫ টাকা/ডজন" },
+  { icon: "🌶️", name: "মসলা", price: "বাজারদর দেখুন" },
+];
+
+const popularPrices = [
+  { icon: "🥔", name: "আলু", unit: "প্রতি কেজি", price: "৪৮", change: "১.২%" },
+  { icon: "🧅", name: "পেঁয়াজ", unit: "প্রতি কেজি", price: "৮৫", change: "২.০%" },
+  { icon: "🍆", name: "বেগুন", unit: "প্রতি কেজি", price: "৮৮", change: "৪.৮%" },
+  { icon: "🐟", name: "রুই মাছ", unit: "প্রতি কেজি", price: "৩৬০", change: "৪.৫%" },
+  { icon: "🥚", name: "ডিম", unit: "প্রতি ডজন", price: "১৫৮", change: "১.৯%" },
+  { icon: "🧈", name: "সয়াবিন (৫০০ গ্রাম)", unit: "প্রতি পিস", price: "১০৮", change: "০.৬%" },
+];
+
+const marketUpdates = [
+  { name: "সর্বনিম্ন চাল", price: "৪৮ টাকা/কেজি", change: "১.২%" },
+  { name: "মিনিকেট চাল", price: "৯৯ টাকা/কেজি", change: "২.৯%" },
+  { name: "বাসমতি চাল", price: "১৬৮ টাকা/কেজি", change: "৩.৬%" },
+  { name: "সরু চাল", price: "৮৯ টাকা/কেজি", change: "০.৮%" },
+  { name: "আমন চাল", price: "৭৯ টাকা/কেজি", change: "১.৫%" },
+];
+
+function UserMenu() {
+  return (
+    <details className="account-menu" open>
+      <summary className="account-trigger" aria-label="ব্যবহারকারীর মেনু">
+        <span className="account-avatar" aria-hidden="true">👨🏽‍💼</span>
+        <span>Rezwan</span>
+        <span className="account-chevron" aria-hidden="true">⌄</span>
+      </summary>
+      <div className="account-dropdown">
+        <strong>Rezwan Ahmed</strong>
+        <span className="account-email">rezwanahmed@gmail.com</span>
+        <a href="#profile"><span aria-hidden="true">👤</span> আমার প্রোফাইল</a>
+        <a className="sign-out" href="#sign-out"><span aria-hidden="true">↪</span> সাইন আউট</a>
+      </div>
+    </details>
+  );
+}
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.js
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
+    <>
+      <header className="site-header">
+        <div className="topbar">
+          <a className="brand" href="#" aria-label="বাজার দর হোম">
+            <span className="brand-mark" aria-hidden="true">🛒</span>
+            <span className="brand-copy">
+              <strong>বাজার দর</strong>
+              <small>সর্বশেষ, ১১ অক্টোবর, ২০২৬</small>
+            </span>
           </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+          <UserMenu />
         </div>
+        <nav className="category-nav" aria-label="পণ্যের বিভাগ">
+          <div className="nav-inner">
+            {categories.map((category) => (
+              <a href="#popular-prices" key={category.name}>
+                <span aria-hidden="true">{category.icon}</span>
+                {category.name}
+              </a>
+            ))}
+          </div>
+        </nav>
+      </header>
+
+      <div className="market-ticker" aria-label="আজকের বাজারদর">
+        <div className="ticker-track">
+          {marketUpdates.map((update) => (
+            <div className="ticker-item" key={update.name}>
+              <span className="ticker-icon" aria-hidden="true">🔖</span>
+              <span>{update.name} {update.price}</span>
+              <span className="price-up">▲ {update.change}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <main className="page-content">
+        <section className="hero" aria-labelledby="hero-title">
+          <div className="hero-copy">
+            <span className="date-badge">সোমবার, ৫ অক্টোবর, ২০২৬</span>
+            <h1 id="hero-title">আজকের বাজারের সব এক জায়গায়</h1>
+            <p>
+              চাল, ডাল, তেল, সবজি, মাছ, মাংস, ডিম ও মসলার দাম — বাজারভিত্তিক
+              বিস্তারিত, ট্রেন্ড, সর্বনিম্ন-সর্বাধিক এবং দামের পরিবর্তন এক জায়গায়।
+            </p>
+            <a className="hero-button" href="#popular-prices">সব পণ্য দেখুন</a>
+          </div>
+          <Image
+            className="hero-image"
+            src={marketBasket}
+            alt="তাজা সবজি ও পণ্যে ভরা বাজারের ঝুড়ি"
+            priority
+          />
+        </section>
+
+        <section className="prices-section" id="popular-prices" aria-labelledby="popular-title">
+          <h2 id="popular-title"><span aria-hidden="true">🔺</span> আজ দাম বেড়েছে</h2>
+          <div className="price-grid">
+            {popularPrices.map((item) => (
+              <article className="price-card" key={item.name}>
+                <div className="product-info">
+                  <span className="product-icon" aria-hidden="true">{item.icon}</span>
+                  <div>
+                    <h3>{item.name}</h3>
+                    <span className="product-unit">{item.unit}</span>
+                  </div>
+                </div>
+                <span className="card-caption">আজকের দাম</span>
+                <div className="price-row">
+                  <strong>{item.price} টাকা</strong>
+                  <span className="price-change">▲ {item.change}</span>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="prices-section falling-section" aria-labelledby="falling-title">
+          <h2 id="falling-title"><span aria-hidden="true">▼</span> আজ দাম কমেছে</h2>
+        </section>
       </main>
-    </div>
+    </>
   );
 }
