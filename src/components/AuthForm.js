@@ -70,6 +70,15 @@ export default function AuthForm({ mode, availability, callbackURL = "/" }) {
     const email = String(formData.get("email") || "").trim();
     const password = String(formData.get("password") || "");
     const confirmPassword = String(formData.get("confirmPassword") || "");
+    const name = String(formData.get("name") || "").trim();
+
+    if (isSignup && !name) {
+      const message = "আপনার নাম লিখুন";
+      setFormError(message);
+      toast.error(message);
+      setIsSubmitting(false);
+      return;
+    }
 
     if (isSignup && password !== confirmPassword) {
       const message = "পাসওয়ার্ড দুটি মিলছে না";
@@ -82,7 +91,7 @@ export default function AuthForm({ mode, availability, callbackURL = "/" }) {
     try {
       const result = isSignup
         ? await authClient.signUp.email({
-          name: String(formData.get("name") || "").trim(),
+          name,
           email,
           password,
         })

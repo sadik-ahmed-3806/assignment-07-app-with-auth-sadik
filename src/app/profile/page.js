@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import SiteHeader from "../../components/SiteHeader";
+import SignOutButton from "../../components/SignOutButton";
 import { auth } from "../../lib/auth";
 
 async function ProfileContent() {
@@ -27,7 +28,7 @@ async function ProfileContent() {
             <h2>{session.user.name || "ব্যবহারকারী"}</h2>
             <p>{session.user.email}</p>
           </div>
-          <Link className="profile-action-link" href="/profile/update">তথ্য আপডেট</Link>
+          <SignOutButton className="profile-signout-button" />
         </section>
         <section className="profile-details">
           <h2>তথ্য</h2>

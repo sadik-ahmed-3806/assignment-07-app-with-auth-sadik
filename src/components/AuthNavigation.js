@@ -1,23 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
 import { authClient } from "../lib/auth-client";
+import SignOutButton from "./SignOutButton";
 
 export default function AuthNavigation() {
-  const router = useRouter();
   const { data: session, isPending } = authClient.useSession();
-
-  async function handleSignOut() {
-    const result = await authClient.signOut();
-    if (result.error) {
-      toast.error(result.error.message || "সাইন আউট করা যায়নি");
-      return;
-    }
-    toast.success("সফলভাবে সাইন আউট হয়েছে");
-    router.push("/");
-  }
 
   if (isPending) {
     return <div className="auth-nav-placeholder" aria-label="অ্যাকাউন্ট লোড হচ্ছে" />;
@@ -46,9 +34,7 @@ export default function AuthNavigation() {
         <strong>{session.user.name || "ব্যবহারকারী"}</strong>
         <span className="account-email">{session.user.email}</span>
         <Link href="/profile"><span aria-hidden="true">👤</span> আমার প্রোফাইল</Link>
-        <button className="sign-out" onClick={handleSignOut} type="button">
-          <span aria-hidden="true">↪</span> সাইন আউট
-        </button>
+        <SignOutButton />
       </div>
     </details>
   );

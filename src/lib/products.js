@@ -44,6 +44,45 @@ export async function getProducts(category) {
   return products;
 }
 
+export async function getProductBySlug(slug) {
+  const products = await getProducts();
+  const productSummary = products.find((product) => product.slug === slug);
+
+  if (!productSummary) {
+    return null;
+  }
+
+  const response = await fetch(
+    `${PRODUCTS_API_URL}/${productSummary.id}`,
+    { cache: "no-store" }
+  );
+
+  if (response.status === 404) {
+    return null;
+  }
+  if (!response.ok) {
+    throw new Error(`পণ্যের বিস্তারিত আনতে ব্যর্থ হয়েছে (HTTP ${response.status})`);
+  }
+
+  const product = await response.json();
+  if (
+    !isProduct(product) ||
+    !Array.isArray(product.markets) ||
+    !product.markets.every((market) =>
+      market !== null &&
+      typeof market === "object" &&
+      typeof market.market === "string" &&
+      typeof market.division === "string" &&
+      typeof market.min === "number" &&
+      typeof market.max === "number"
+    )
+  ) {
+    throw new Error("পণ্যের বিস্তারিত API থেকে পাওয়া তথ্য সঠিক ফরম্যাটে নেই");
+  }
+
+  return product;
+}
+
 export async function getCategories() {
   const response = await fetch(CATEGORIES_API_URL, { cache: "no-store" });
 

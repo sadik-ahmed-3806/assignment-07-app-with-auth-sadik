@@ -70,7 +70,7 @@ export default function Home() {
       <main className="page-content home-content">
         <section className="hero" aria-labelledby="hero-title">
           <div className="hero-copy">
-            <span className="date-badge">সোমবার, ৫ অক্টোবর, ২০২৬</span>
+            <span className="date-badge">রবিবার, ১১ অক্টোবর, ২০২৬</span>
             <h1 id="hero-title">আজকের বাজারের সব এক জায়গায়</h1>
             <p>
               চাল, ডাল, তেল, সবজি, মাছ, মাংস, ডিম ও মসলার দাম — বাজারভিত্তিক
