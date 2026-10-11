@@ -1,5 +1,8 @@
 import Image from "next/image";
+import Link from "next/link";
+import { Suspense } from "react";
 import marketBasket from "../../assets/bazar-hero.png";
+import { formatBengaliNumber, getProductUnit, getProducts } from "../lib/products";
 
 const categories = [
   { icon: "🌾", name: "চাল", price: "৬৮ টাকা/কেজি" },
@@ -10,15 +13,6 @@ const categories = [
   { icon: "🍗", name: "মাংস", price: "৭৫০ টাকা/কেজি" },
   { icon: "🥚", name: "ডিম", price: "৫৫ টাকা/ডজন" },
   { icon: "🌶️", name: "মসলা", price: "বাজারদর দেখুন" },
-];
-
-const popularPrices = [
-  { icon: "🥔", name: "আলু", unit: "প্রতি কেজি", price: "৪৮", change: "১.২%" },
-  { icon: "🧅", name: "পেঁয়াজ", unit: "প্রতি কেজি", price: "৮৫", change: "২.০%" },
-  { icon: "🍆", name: "বেগুন", unit: "প্রতি কেজি", price: "৮৮", change: "৪.৮%" },
-  { icon: "🐟", name: "রুই মাছ", unit: "প্রতি কেজি", price: "৩৬০", change: "৪.৫%" },
-  { icon: "🥚", name: "ডিম", unit: "প্রতি ডজন", price: "১৫৮", change: "১.৯%" },
-  { icon: "🧈", name: "সয়াবিন (৫০০ গ্রাম)", unit: "প্রতি পিস", price: "১০৮", change: "০.৬%" },
 ];
 
 const marketUpdates = [
@@ -47,6 +41,95 @@ function UserMenu() {
   );
 }
 
+function PriceCard({ product }) {
+  const { dir, pct } = product.change;
+  const changeLabel = dir === "flat"
+    ? "— ০.০%"
+    : `${dir === "up" ? "▲" : "▼"} ${formatBengaliNumber(Math.abs(pct), {
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 1,
+    })}%`;
+
+  return (
+    <Link
+      className="price-card"
+      href={`/product/${product.slug}`}
+      aria-label={`${product.nameBn}, ${formatBengaliNumber(product.today)} টাকা`}
+    >
+      <div className="product-info">
+        <span className="product-icon" aria-hidden="true">{product.image}</span>
+        <div>
+          <h3>{product.nameBn}</h3>
+          <span className="product-unit">{getProductUnit(product.unit)}</span>
+        </div>
+      </div>
+      <span className="card-caption">আজকের দাম</span>
+      <div className="price-row">
+        <strong>{formatBengaliNumber(product.today)} টাকা</strong>
+        <span className={`price-change change-${dir}`}>{changeLabel}</span>
+      </div>
+    </Link>
+  );
+}
+
+async function HomeProductSections() {
+  const products = await getProducts();
+  const risers = products
+    .filter((product) => product.change.dir === "up")
+    .sort((a, b) => b.change.pct - a.change.pct)
+    .slice(0, 6);
+  const fallers = products
+    .filter((product) => product.change.dir === "down")
+    .sort((a, b) => Math.abs(b.change.pct) - Math.abs(a.change.pct))
+    .slice(0, 6);
+
+  return (
+    <>
+      <section className="prices-section" aria-labelledby="risers-title">
+        <h2 id="risers-title"><span className="section-arrow" aria-hidden="true">▲</span> আজ দাম বেড়েছে</h2>
+        <div className="price-grid">
+          {risers.map((product) => <PriceCard key={product.id} product={product} />)}
+        </div>
+      </section>
+
+      <section className="prices-section falling-section" aria-labelledby="fallers-title">
+        <h2 id="fallers-title"><span className="section-arrow" aria-hidden="true">▼</span> আজ দাম কমেছে</h2>
+        <div className="price-grid">
+          {fallers.map((product) => <PriceCard key={product.id} product={product} />)}
+        </div>
+      </section>
+
+      <section className="prices-section all-products-section" id="সব-পণ্য" aria-labelledby="all-products-title">
+        <h2 id="all-products-title">সব পণ্য</h2>
+        <p className="section-subtitle">আজকের বাজারদর ও দামের পরিবর্তন দেখুন</p>
+        <div className="price-grid">
+          {products.map((product) => <PriceCard key={product.id} product={product} />)}
+        </div>
+      </section>
+    </>
+  );
+}
+
+function ProductSectionsSkeleton() {
+  return (
+    <div className="product-sections-skeleton" aria-busy="true" aria-label="পণ্যের তথ্য লোড হচ্ছে">
+      {["আজ দাম বেড়েছে", "আজ দাম কমেছে", "সব পণ্য"].map((title) => (
+        <section className="prices-section" key={title}>
+          <h2>{title}</h2>
+          <div className="price-grid">
+            {Array.from({ length: 6 }, (_, index) => (
+              <div className="price-card skeleton-card" key={index}>
+                <span className="skeleton-line skeleton-title" />
+                <span className="skeleton-line skeleton-price" />
+              </div>
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+  );
+}
+
 export default function Home() {
   return (
     <>
@@ -64,7 +147,7 @@ export default function Home() {
         <nav className="category-nav" aria-label="পণ্যের বিভাগ">
           <div className="nav-inner">
             {categories.map((category) => (
-              <a href="#popular-prices" key={category.name}>
+              <a href="#সব-পণ্য" key={category.name}>
                 <span aria-hidden="true">{category.icon}</span>
                 {category.name}
               </a>
@@ -94,7 +177,7 @@ export default function Home() {
               চাল, ডাল, তেল, সবজি, মাছ, মাংস, ডিম ও মসলার দাম — বাজারভিত্তিক
               বিস্তারিত, ট্রেন্ড, সর্বনিম্ন-সর্বাধিক এবং দামের পরিবর্তন এক জায়গায়।
             </p>
-            <a className="hero-button" href="#popular-prices">সব পণ্য দেখুন</a>
+            <a className="hero-button" href="#সব-পণ্য">সব পণ্য দেখুন</a>
           </div>
           <Image
             className="hero-image"
@@ -104,32 +187,16 @@ export default function Home() {
           />
         </section>
 
-        <section className="prices-section" id="popular-prices" aria-labelledby="popular-title">
-          <h2 id="popular-title"><span aria-hidden="true">🔺</span> আজ দাম বেড়েছে</h2>
-          <div className="price-grid">
-            {popularPrices.map((item) => (
-              <article className="price-card" key={item.name}>
-                <div className="product-info">
-                  <span className="product-icon" aria-hidden="true">{item.icon}</span>
-                  <div>
-                    <h3>{item.name}</h3>
-                    <span className="product-unit">{item.unit}</span>
-                  </div>
-                </div>
-                <span className="card-caption">আজকের দাম</span>
-                <div className="price-row">
-                  <strong>{item.price} টাকা</strong>
-                  <span className="price-change">▲ {item.change}</span>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="prices-section falling-section" aria-labelledby="falling-title">
-          <h2 id="falling-title"><span aria-hidden="true">▼</span> আজ দাম কমেছে</h2>
-        </section>
+        <Suspense fallback={<ProductSectionsSkeleton />}>
+          <HomeProductSections />
+        </Suspense>
       </main>
+      <footer className="site-footer">
+        <div className="footer-inner">
+          <span>বাজার দর — প্রয়োজনীয় পণ্যের দাম এক নজরে।</span>
+          <span>সকল দাম সম্ভাব্য; বাজার অবস্থার ওপর নির্ভর করে পরিবর্তিত হয়।</span>
+        </div>
+      </footer>
     </>
   );
 }

@@ -327,11 +327,19 @@ a {
 }
 
 .price-card {
+  display: block;
   min-height: 117px;
   padding: 13px 14px 11px;
   border: 1px solid var(--line);
   border-radius: 14px;
   background: var(--surface);
+  transition: border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+}
+
+.price-card:hover {
+  transform: translateY(-2px);
+  border-color: #bfd8c6;
+  box-shadow: 0 5px 14px rgb(35 49 41 / 6%);
 }
 
 .product-info {
@@ -386,9 +394,25 @@ a {
   padding: 3px 8px;
   border-radius: 99px;
   background: #f1f5f2;
-  color: var(--red);
   font-size: 10px;
   white-space: nowrap;
+}
+
+.change-up {
+  color: var(--red);
+}
+
+.change-down {
+  color: var(--green);
+}
+
+.change-flat {
+  color: #4d5952;
+}
+
+.section-arrow {
+  color: var(--red);
+  font-size: 13px;
 }
 
 .falling-section {
@@ -397,6 +421,67 @@ a {
 
 .falling-section h2 span {
   color: #15974e;
+}
+
+.all-products-section {
+  margin-bottom: 34px;
+}
+
+.all-products-section h2 {
+  margin-bottom: 4px;
+}
+
+.section-subtitle {
+  margin: 0 0 13px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.site-footer {
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.footer-inner {
+  display: flex;
+  width: min(100% - 32px, 960px);
+  min-height: 54px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0 auto;
+  color: #56625b;
+  font-size: 11px;
+}
+
+.product-sections-skeleton .price-card {
+  cursor: wait;
+}
+
+.skeleton-line {
+  display: block;
+  height: 12px;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #edf2ee 25%, #f7f9f7 50%, #edf2ee 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.4s ease-in-out infinite;
+}
+
+.skeleton-title {
+  width: 55%;
+  height: 35px;
+  margin: 2px 0 10px;
+}
+
+.skeleton-price {
+  width: 78%;
+  height: 24px;
+}
+
+@keyframes skeleton-shimmer {
+  to {
+    background-position: -200% 0;
+  }
 }
 
 @media (max-width: 680px) {
@@ -464,6 +549,15 @@ a {
   .product-icon {
     width: 37px;
     height: 37px;
+  }
+
+  .footer-inner {
+    min-height: 64px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 5px;
+    padding: 10px 0;
   }
 }
 
