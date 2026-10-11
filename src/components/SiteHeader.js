@@ -1,4 +1,5 @@
 import Link from "next/link";
+import AuthNavigation from "./AuthNavigation";
 
 const categories = [
   { slug: "chal", icon: "🍚", name: "চাল" },
@@ -20,24 +21,6 @@ const marketUpdates = [
   { icon: "🫘", name: "আমন ডাল", price: "১৫৬ টাকা/কেজি", direction: "down", change: "২.৫%" },
 ];
 
-function UserMenu() {
-  return (
-    <details className="account-menu">
-      <summary className="account-trigger" aria-label="ব্যবহারকারীর মেনু">
-        <span className="account-avatar" aria-hidden="true">👨🏽‍💼</span>
-        <span>Rezwan</span>
-        <span className="account-chevron" aria-hidden="true">⌄</span>
-      </summary>
-      <div className="account-dropdown">
-        <strong>Rezwan Ahmed</strong>
-        <span className="account-email">rezwanahmed@gmail.com</span>
-        <a href="#profile"><span aria-hidden="true">👤</span> আমার প্রোফাইল</a>
-        <a className="sign-out" href="#sign-out"><span aria-hidden="true">↪</span> সাইন আউট</a>
-      </div>
-    </details>
-  );
-}
-
 export default function SiteHeader({ activeCategory }) {
   return (
     <>
@@ -50,7 +33,7 @@ export default function SiteHeader({ activeCategory }) {
               <small>সর্বশেষ, ১১ অক্টোবর, ২০২৬</small>
             </span>
           </Link>
-          <UserMenu />
+          <AuthNavigation />
         </div>
         <nav className="category-nav" aria-label="পণ্যের বিভাগ">
           <div className="nav-inner">

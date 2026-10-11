@@ -1,4 +1,5 @@
 import "./globals.css";
+import AppToaster from "../components/Toaster";
 
 export const metadata = {
   title: "বাজার দর | আজকের বাজারের সব এক জায়গায়",
@@ -8,7 +9,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="bn" data-scroll-behavior="smooth">
-      <body>{children}</body>
+      <body>
+        {children}
+        <AppToaster />
+      </body>
     </html>
   );
 }
