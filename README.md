@@ -34,6 +34,36 @@
 npm install
 ```
 
+### Authentication কনফিগারেশন
+
+Better Auth-এর session MongoDB-তে সংরক্ষিত হয়। `.env.example` কপি করে `.env` তৈরি করুন, তারপর আপনার নিজের values বসান:
+
+```bash
+cp .env.example .env
+```
+
+PowerShell-এ:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+`.env`-এ `BETTER_AUTH_SECRET`, MongoDB connection string (`BETTER_AUTH_DB_URL`) এবং database name (`BETTER_AUTH_DB_NAME`) সেট করুন। `BETTER_AUTH_SECRET`-এর জন্য অন্তত ৩২ অক্ষরের একটি নিরাপদ random value ব্যবহার করুন। OAuth credentials-ও একই `.env` ফাইলে দিন—source code-এ secret রাখবেন না। `.env` Git-এ ignored থাকে।
+
+Google sign-in চালু করতে Google OAuth client তৈরি করে `GOOGLE_CLIENT_ID` ও `GOOGLE_CLIENT_SECRET` দিন। Google-এর authorized redirect URI হবে:
+
+```text
+http://localhost:3000/api/auth/callback/google
+```
+
+GitHub sign-in চালু করতে GitHub OAuth App তৈরি করে `GITHUB_CLIENT_ID` ও `GITHUB_CLIENT_SECRET` দিন। GitHub-এর authorization callback URL হবে:
+
+```text
+http://localhost:3000/api/auth/callback/github
+```
+
+Production deploy-এ `BETTER_AUTH_URL` এবং provider callback URL-গুলো আপনার deployed site-এর origin দিয়ে সেট করুন। Provider-এর client ID ও secret—দুটিই দিতে হবে; credentials না থাকলে সংশ্লিষ্ট social sign-in button নিষ্ক্রিয় থাকবে। `.env` পরিবর্তনের পর dev server আবার চালু করুন।
+
 তারপর ডেভেলপমেন্ট সার্ভার চালু করুন:
 
 ```bash
@@ -45,6 +75,8 @@ npm run dev
 ```text
 http://localhost:3000
 ```
+
+সেটআপ যাচাই করতে `/signup` থেকে email/password দিয়ে account তৈরি করুন, তারপর `/signin` থেকে sign in করে `/profile` দেখুন এবং sign out করুন। OAuth credentials যোগ করার পর `/signin` ও `/signup`-এ Google এবং GitHub button সক্রিয় হবে; provider callback সফল হলে configured callback page-এ ফিরে আসবে।
 
 ## প্রজেক্ট স্ক্রিপ্ট
 
